@@ -15,11 +15,22 @@ services:
 
   configurationserver1:
     image: antifragilesoftware/simple-boot-configuration-server
-    container_name: configurationserver
+    container_name: configurationserver1
     ports:
-     - "8080:8080"
+     - "8888:8888"
     depends_on:
      - consul1
     networks:
       - micronet
-    command: ["java","--eureka.client.serviceUrl.defaultZone=http://eureka:8761/eureka/","--eureka.instance.prefer-ip-address=true","-Djava.security.egd=file:/dev/./urandom","-jar","/microservice.jar"]
+    command: ["java","--spring.cloud.consul.host=consul1","-Djava.security.egd=file:/dev/./urandom","-jar","/microservice.jar"]
+
+  configurationserver2:
+    image: antifragilesoftware/simple-boot-configuration-server
+    container_name: configurationserver2
+    ports:
+     - "8889:8888"
+    depends_on:
+     - consul1
+    networks:
+      - micronet
+    command: ["java","--spring.cloud.consul.host=consul1","-Djava.security.egd=file:/dev/./urandom","-jar","/microservice.jar"]
