@@ -24,13 +24,15 @@ services:
       - micronet
     command: ["java","--spring.cloud.consul.host=consul1","-Djava.security.egd=file:/dev/./urandom","-jar","/microservice.jar"]
 
-  configurationserver2:
-    image: antifragilesoftware/simple-boot-configuration-server
-    container_name: configurationserver2
+  microservice1:
+    image: antifragilesoftware/simple-boot-configurable-microservice
+    container_name: microservice1
     ports:
-     - "8889:8888"
+     - "8080:8080"
     depends_on:
      - consul1
+     - configurationserver1
     networks:
       - micronet
     command: ["java","--spring.cloud.consul.host=consul1","-Djava.security.egd=file:/dev/./urandom","-jar","/microservice.jar"]
+
